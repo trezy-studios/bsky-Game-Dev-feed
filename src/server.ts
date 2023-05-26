@@ -5,7 +5,6 @@ import { DidResolver, MemoryCache } from '@atproto/did-resolver'
 import { createServer } from './lexicon'
 import feedGeneration from './methods/feed-generation'
 import describeGenerator from './methods/describe-generator'
-import { createDb, Database, migrateToLatest } from './db'
 import { FirehoseSubscription } from './subscription'
 import { AppContext, Config } from './config'
 import wellKnown from './well-known'
@@ -13,26 +12,22 @@ import wellKnown from './well-known'
 export class FeedGenerator {
   public app: express.Application
   public server?: http.Server
-  public db: Database
   public firehose: FirehoseSubscription
   public cfg: Config
 
   constructor(
     app: express.Application,
-    db: Database,
     firehose: FirehoseSubscription,
     cfg: Config,
   ) {
     this.app = app
-    this.db = db
     this.firehose = firehose
     this.cfg = cfg
   }
 
   static create(cfg: Config) {
     const app = express()
-    const db = createDb(cfg.sqliteLocation)
-    const firehose = new FirehoseSubscription(db, cfg.subscriptionEndpoint)
+    const firehose = new FirehoseSubscription(cfg.subscriptionEndpoint)
 
     const didCache = new MemoryCache()
     const didResolver = new DidResolver(
@@ -49,7 +44,6 @@ export class FeedGenerator {
       },
     })
     const ctx: AppContext = {
-      db,
       didResolver,
       cfg,
     }
@@ -58,11 +52,10 @@ export class FeedGenerator {
     app.use(server.xrpc.router)
     app.use(wellKnown(ctx))
 
-    return new FeedGenerator(app, db, firehose, cfg)
+    return new FeedGenerator(app, firehose, cfg)
   }
 
   async start(): Promise<http.Server> {
-    await migrateToLatest(this.db)
     this.firehose.run()
     this.server = this.app.listen(this.cfg.port)
     await events.once(this.server, 'listening')

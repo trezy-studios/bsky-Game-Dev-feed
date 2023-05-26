@@ -3,18 +3,19 @@
   "compilerOptions": {
     "lib": [
       "ESNext",
-    ], 
+    ],
     "outDir": "dist",
     "module": "CommonJS",
     "target": "ES6",
     "esModuleInterop": true,
     "moduleResolution": "node",
     "alwaysStrict": true,
+    "allowJs": true,
     "allowUnreachableCode": false,
     "strictNullChecks": true,
     "skipLibCheck": true
   },
-  "include": ["./src/**/*.ts"],
+  "include": ["./src/**/*.ts", "src/util/database.js", "src/algos/game-dev.js"],
   "exclude": [
     "node_modules"
   ]

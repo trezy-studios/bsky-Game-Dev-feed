@@ -1,0 +1,17 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model Skeet {
+  cid         String        @id @unique
+  indexedAt   DateTime?     @default(now())
+  replyParent String?       @db.VarChar(2000)
+  replyRoot   String?       @db.VarChar(2000)
+  uri         String        @db.VarChar(2000)
+}
