@@ -6,7 +6,7 @@ import { AppContext } from '../config'
 const feedGenDid =
     process.env.FEEDGEN_SERVICE_DID ?? `did:web:${process.env.FEEDGEN_HOSTNAME}`
 
-export const uri = `at://${feedGenDid}/app.bsky.feed.generator/${process.env.FEEDGEN_HOSTNAME}`
+export const uri = `at://${feedGenDid}/app.bsky.feed.generator/${process.env.FEED_RECORD_NAME}`
 
 export const handler = async (ctx: AppContext, params: QueryParams) => {
   let builder = ctx.db
