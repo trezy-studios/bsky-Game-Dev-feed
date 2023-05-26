@@ -11,8 +11,9 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
 
     const postsToDelete = ops.posts.deletes.map((del) => del.uri)
     const postsToCreate = ops.posts.creates
-      .filter(create => /game[s\s]?(?:dev|design)/giu.test(create.record.text))
+      .filter(create => /games?\s?(?:dev|design)/giu.test(create.record.text))
       .map(create => {
+        console.log(create.record.text)
         return {
           uri: create.uri,
           cid: create.cid,
