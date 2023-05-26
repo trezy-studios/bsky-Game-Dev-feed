@@ -1,12 +1,10 @@
-import dotenv from 'dotenv'
+import 'dotenv/config'
 import { AtpAgent, BlobRef } from '@atproto/api'
 import fs from 'fs/promises'
 import { ids } from '../src/lexicon/lexicons'
 import path from 'path'
 
 const run = async () => {
-  dotenv.config()
-
   // YOUR bluesky handle
   // Ex: user.bsky.social
   const handle = process.env.BSKY_USERNAME

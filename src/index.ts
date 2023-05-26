@@ -1,8 +1,8 @@
-import dotenv from 'dotenv'
+import 'dotenv/config'
+import algos from './algos'
 import FeedGenerator from './server'
 
 const run = async () => {
-  dotenv.config()
   const hostname = maybeStr(process.env.FEEDGEN_HOSTNAME) ?? 'example.com'
   const serviceDid =
     maybeStr(process.env.FEEDGEN_SERVICE_DID) ?? `did:web:${hostname}`
@@ -20,6 +20,10 @@ const run = async () => {
   console.log(
     `🤖 running feed generator at http://${server.cfg.listenhost}:${server.cfg.port}`,
   )
+  console.log('')
+  console.log(`Available Algos:`)
+  Object.keys(algos).forEach(algoKey => console.log(`> ${algoKey}`))
+  console.log('')
 }
 
 const maybeStr = (val?: string) => {
