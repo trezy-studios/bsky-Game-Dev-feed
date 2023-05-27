@@ -4,21 +4,19 @@ import FeedGenerator from './server'
 
 const run = async () => {
   const hostname = maybeStr(process.env.FEEDGEN_HOSTNAME) ?? 'example.com'
-  const serviceDid =
-    maybeStr(process.env.FEEDGEN_SERVICE_DID) ?? `did:web:${hostname}`
+  const serviceDid = maybeStr(process.env.FEEDGEN_SERVICE_DID) ?? ''
   const server = FeedGenerator.create({
     port: maybeInt(process.env.FEEDGEN_PORT ?? process.env.PORT) ?? 3000,
-    sqliteLocation: maybeStr(process.env.FEEDGEN_SQLITE_LOCATION) ?? ':memory:',
     subscriptionEndpoint:
       maybeStr(process.env.FEEDGEN_SUBSCRIPTION_ENDPOINT) ??
       'wss://bsky.social',
     hostname,
     serviceDid,
   })
+  console.log({hostname,serviceDid})
   await server.start()
-  console.log(
-    `🤖 running feed generator at http://${process.env.FEEDGEN_HOSTNAME}:${server.cfg.port}`,
-  )
+  console.log(`🤖 running feed generator at http://${process.env.FEEDGEN_HOSTNAME}:${server.cfg.port}`)
+
   console.log('')
   console.log(`Available Algos:`)
   Object.keys(algos).forEach(algoKey => console.log(`> ${algoKey}`))

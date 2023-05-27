@@ -10,7 +10,6 @@ import {
   Commit,
   OutputSchema as RepoEvent,
 } from '../lexicon/types/com/atproto/sync/subscribeRepos'
-import { Database } from '../db'
 
 export abstract class FirehoseSubscriptionBase {
   public sub: Subscription<RepoEvent>

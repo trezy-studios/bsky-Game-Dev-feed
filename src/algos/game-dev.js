@@ -1,8 +1,7 @@
 import 'dotenv/config'
 import { getSkeets } from '../util/database'
 
-const feedGenDid =
-    process.env.FEEDGEN_SERVICE_DID ?? `did:web:${process.env.FEEDGEN_HOSTNAME}`
+const feedGenDid = process.env.FEEDGEN_SERVICE_DID
 
 export const uri = `at://${feedGenDid}/app.bsky.feed.generator/${process.env.FEED_RECORD_NAME}`
 

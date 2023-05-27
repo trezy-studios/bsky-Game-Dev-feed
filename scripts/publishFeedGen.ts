@@ -7,16 +7,16 @@ import path from 'path'
 const run = async () => {
   // YOUR bluesky handle
   // Ex: user.bsky.social
-  const handle = process.env.BSKY_USERNAME
+  const handle: string = process.env.BSKY_USERNAME ?? ''
 
   // YOUR bluesky password, or preferably an App Password (found in your client settings)
   // Ex: abcd-1234-efgh-5678
-  const password = process.env.BSKY_APP_PASSWORD
+  const password: string = process.env.BSKY_APP_PASSWORD ?? ''
 
   // A short name for the record that will show in urls
   // Lowercase with no spaces.
   // Ex: whats-hot
-  const recordName = process.env.FEEDGEN_HOSTNAME
+  const recordName: string = process.env.FEED_RECORD_NAME ?? ''
 
   // A display name for your feed
   // Ex: What's Hot
@@ -34,11 +34,10 @@ const run = async () => {
   // NO NEED TO TOUCH ANYTHING BELOW HERE
   // -------------------------------------
 
-  if (!process.env.FEEDGEN_SERVICE_DID && !process.env.FEEDGEN_HOSTNAME) {
-    throw new Error('Please provide a hostname in the .env file')
+  if (!process.env.FEEDGEN_SERVICE_DID) {
+    throw new Error('Please provide a DID in the .env file')
   }
-  const feedGenDid =
-    process.env.FEEDGEN_SERVICE_DID ?? `did:web:${process.env.FEEDGEN_HOSTNAME}`
+  const feedGenDid = process.env.FEEDGEN_SERVICE_DID
 
   // only update this if in a test environment
   const agent = new AtpAgent({ service: 'https://bsky.social' })
