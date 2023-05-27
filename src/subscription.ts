@@ -16,7 +16,7 @@ export class FirehoseSubscription extends FirehoseSubscriptionBase {
     const ops = await getOpsByType(evt)
 
     const skeetsToDelete = ops.posts.deletes.map(del => del.uri)
-    const skeetsToCreate = ops.posts.creates //.filter(create => /games?\s?(?:dev|design)/giu.test(create.record.text))
+    const skeetsToCreate = ops.posts.creates.filter(create => /games?\s?(?:dev|design)/giu.test(create.record.text))
 
     if (skeetsToDelete.length > 0) {
       await deleteSkeets(skeetsToDelete)
